@@ -3,6 +3,14 @@
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
 
+<link rel="preload" href="{{ 'component-rte.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+{%- if section.settings.enable_quick_add -%}
+  <link rel="stylesheet" href="{{ 'quick-add.css' | asset_url }}" media="print" onload="this.media='all'">
+  <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
 {%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
@@ -18,7 +26,7 @@
 {%- endstyle -%}
 
 <div class="section-{{ section.id }}-padding">
-<div class="{% if section.settings.filter_type == 'vertical' %} facets-vertical page-width{% endif %}">
+<div class="facets-vertical page-width">
 <ul class="grid product-grid">
     {% for product in collections[section.settings.collection].products %}
 
@@ -26,7 +34,9 @@
     {% render 'card-product',
         card_product: product,
         lazy_load: lazy_load,
-        section_id: section.id
+        section_id: section.id,
+        has_only_default_variant: false,
+        show_quick_add: true
     %}
     </li>
     {% endfor %}
@@ -64,6 +74,12 @@
         "type": "collection",
         "id": "collection",
         "label": "Collection"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_quick_add",
+      "default": true,
+      "label": "t:sections.main-collection-product-grid.settings.enable_quick_buy.label"
     }
   ]
 }

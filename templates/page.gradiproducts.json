@@ -5,7 +5,8 @@
       "settings": {
         "padding_top": 28,
         "padding_bottom": 28,
-        "collection": "all"
+        "collection": "all",
+        "enable_quick_add": true
       }
     }
   },
