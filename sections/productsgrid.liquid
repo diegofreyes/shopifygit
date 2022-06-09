@@ -23,6 +23,33 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
+  .product_variations{
+    display: flex;
+    margin-bottom: 16px;
+  }
+  .product_color{
+    margin-right: 8px;
+  }
+
+  .product_color input{
+    display: none;
+  }
+
+  .product_color_option{
+    display: block;
+    width: 24px;
+    height: 24px;
+    border-radius: 100%;
+    border: 2px solid #F1F1F1;
+  }
+
+  .product_color_option
+
+  .product_color input:checked ~ .product_color_option{
+    border: 2px solid #525B73;
+  }
+
+  
 {%- endstyle -%}
 
 <div class="section-{{ section.id }}-padding">
@@ -33,11 +60,39 @@
     <li class="grid__item">
     {% render 'card-product',
         card_product: product,
-        lazy_load: lazy_load,
+        lazy_load: true,
         section_id: section.id,
         has_only_default_variant: false,
         show_quick_add: true
     %}
+    </li>
+    {% endfor %}
+</ul>
+
+<ul class="grid product-grid">
+    {% for product in collections[section.settings.collection].products %}
+
+    <li class="grid__item">
+      <a href="{{ product.url }}">}
+        <img 
+          loading="lazy"
+          src="{{ product | image_url: width: 300 }}"
+          width="{{ product.featured_media.width }}"
+          height="{{ product.featured_media.height }}">
+      </a>
+
+      <h2>{{ product.title }}</h2>
+      
+      <div class="product_variations">
+      {% for product_option in product.variants %}
+          <label class="product_color">
+            <input type="radio" id="{{ product_option.id  }}" name="color" data-price="{{product_option.price}}" data-img="{{product_option.image.src}}">
+            <span class="product_color_option product_color_option-{{product_option.title}}"></span>
+          </label>
+      {% endfor %}
+      </div>
+    
+      <span class="product_price"> {{ product.price | money_with_currency }}</span>
     </li>
     {% endfor %}
 </ul>
