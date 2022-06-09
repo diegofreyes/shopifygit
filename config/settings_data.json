@@ -96,6 +96,7 @@
     "predictive_search_show_vendor": false,
     "predictive_search_show_price": false,
     "currency_code_enabled": true,
+    "product_color_schema": "Negro:#000000\nBlanco:#FFFFFF",
     "sections": {
       "announcement-bar": {
         "type": "announcement-bar",
@@ -122,6 +123,7 @@
           "logo_width": 90,
           "logo_position": "middle-left",
           "menu": "main-menu",
+          "menu_type_desktop": "dropdown",
           "show_line_separator": true,
           "enable_sticky_header": true,
           "margin_bottom": 0
@@ -183,7 +185,10 @@
           "color_scheme": "background-1"
         }
       }
-    }
+    },
+    "content_for_index": [
+
+    ]
   },
   "presets": {
     "Default": {
