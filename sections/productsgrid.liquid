@@ -40,10 +40,16 @@
     width: 24px;
     height: 24px;
     border-radius: 100%;
-    border: 2px solid #F1F1F1;
+    border: 2px solid #D7D7D7;
   }
 
-  .product_color_option
+  {% assign colors = settings.product_color_schema | split: " " %}
+  {% for color in colors %}
+    {% assign item = color | split: ":" %}
+    .product_color_option-{{ item[0]}}{
+      background-color: {{ item[1] }}
+    }
+  {% endfor %}
 
   .product_color input:checked ~ .product_color_option{
     border: 2px solid #525B73;
@@ -73,12 +79,10 @@
     {% for product in collections[section.settings.collection].products %}
 
     <li class="grid__item">
-      <a href="{{ product.url }}">}
+      <a href="{{ product.url }}">
         <img 
           loading="lazy"
-          src="{{ product | image_url: width: 300 }}"
-          width="{{ product.featured_media.width }}"
-          height="{{ product.featured_media.height }}">
+          src="{{ product | image_url: width: 300 }}">
       </a>
 
       <h2>{{ product.title }}</h2>
