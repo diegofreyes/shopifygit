@@ -54,8 +54,6 @@
   .product_color input:checked ~ .product_color_option{
     border: 2px solid #525B73;
   }
-
-  
 {%- endstyle -%}
 
 <div class="section-{{ section.id }}-padding">
@@ -90,7 +88,7 @@
       <div class="product_variations">
       {% for product_option in product.variants %}
           <label class="product_color">
-            <input type="radio" id="{{ product_option.id  }}" name="color" data-price="{{product_option.price}}" data-img="{{product_option.image.src}}">
+            <input type="radio" id="{{ product_option.id  }}" name="color" data-price="{{product_option.price}}" data-img="{{product_option.image | image_url: width: 300}}">
             <span class="product_color_option product_color_option-{{product_option.title}}"></span>
           </label>
       {% endfor %}
@@ -102,6 +100,38 @@
 </ul>
 </div>
 </div>
+
+{%- javascript -%}
+if(!customElements.get('grid-item')) {
+    customElements.define('grid-item', class Product extends HTMLElement {
+      constructor() {
+        super();
+        this.options = this.querySelectorAll("input[type='radio']");
+        this.options.forEach( item => {
+          item.addEventListener('click', function(){
+            console.log( this.getAttribute('data-img'));
+            console.log( this.parentNode.parentNode.parentNode.updateImage.bind(this) );
+          })
+        });
+      }
+    });
+  }
+
+const products = document.querySelectorAll("li.grid__item");
+
+products.forEach( product => {
+  let productOptions = product.querySelectorAll("input[type='radio']");
+  productOptions.forEach( function( option ){
+    option.addEventListener('click', function(){
+      let image = this.getAttribute('data-img');
+      let productImage = product.querySelector("img");
+      productImage.src = image;
+    });
+  });
+  
+});
+
+{%- endjavascript -%}
 
 {% schema %}
 {
