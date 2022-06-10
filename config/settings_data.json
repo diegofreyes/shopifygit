@@ -96,7 +96,7 @@
     "predictive_search_show_vendor": false,
     "predictive_search_show_price": false,
     "currency_code_enabled": true,
-    "product_color_schema": "Negro:#000000\nBlanco:#FFFFFF\nBlackSpace:#30384C\nPinkRose:#FBB7EF\nBlueRed:#FF096E\nAllGray:#6C6B6B\nRainbow:#B600FF\nBlue:#00A6FF\nVerde:#27EA00\nAmarillo:#FFE800",
+    "product_color_schema": "Negro:#000000\nBlanco:#FFFFFF\nBlackSpace:#30384C\nPinkRose:#FBB7EF\nBlueRed:#FF096E\nAllGray:#6C6B6B\nRainbow:#B600FF\nBlue:#00A6FF\nVerde:#27EA00\nAmarillo:#FFE800\nAzul:#22489E",
     "sections": {
       "announcement-bar": {
         "type": "announcement-bar",
