@@ -54,6 +54,15 @@
   .product_color input:checked ~ .product_color_option{
     border: 2px solid #525B73;
   }
+
+  .product_button{
+    display: flex;
+    margin-bottom: 16px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 48px;
+  }
 {%- endstyle -%}
 
 <div class="section-{{ section.id }}-padding">
@@ -96,7 +105,7 @@
       </div>
     
       <span class="product_price"> {{ product.price | money_with_currency }}</span>
-      <button class="product_button" data-id="">Add to cart</button>
+      <button class="product_button" data-id="" disabled="disabled">Add to cart</button>
     </li>
     {% endfor %}
 </ul>
@@ -122,6 +131,7 @@ products.forEach( product => {
       let productImage = product.querySelector("img");
       productImage.src = image;
       productButton.setAttribute("data-id", id);
+      productButton.removeAttribute("disabled");
       productPrice.innerHTML = price;
     });
   });
