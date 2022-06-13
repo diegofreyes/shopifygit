@@ -136,12 +136,15 @@ products.forEach( product => {
     });
   });
 
+  let responseJson;
+
   productButton.addEventListener('click', function(){
     let formData = {
     'items': [{
       'id': this.getAttribute('data-id'),
       'quantity': 1
-      }]
+      }],
+      sections: "cart-icon-bubble"
     };
 
     fetch(window.Shopify.routes.root + 'cart/add.js', {
@@ -152,15 +155,19 @@ products.forEach( product => {
       body: JSON.stringify(formData)
     })
     .then(response => {
+      alert("Item has been added to cart");
       return response.json();
     })
+    .then(data => renderCartItems(data))
     .catch((error) => {
       console.error('Error:', error);
     });
-
-    console.log( formData );
   })
 });
+
+function renderCartItems( data ){
+  console.log( data );
+}
 
 
 
