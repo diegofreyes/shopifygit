@@ -105,7 +105,7 @@
       </div>
     
       <span class="product_price"> {{ product.price | money_with_currency }}</span>
-      <button class="product_button" data-id="" disabled="disabled">Add to cart</button>
+      <button class="product_button" data-id="" disabled="disabled">{{ 'products.product.add_to_cart' | t }}</button>
     </li>
     {% endfor %}
 </ul>
@@ -166,7 +166,7 @@ products.forEach( product => {
 });
 
 function renderCartItems( data ){
-  console.log( data );
+  
 }
 
 
