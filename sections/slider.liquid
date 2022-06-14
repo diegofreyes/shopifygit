@@ -1,15 +1,44 @@
 <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+{% style %}
+.slide{
+    display: flex;
+}
 
+.slide-left, .slide-right{
+    width: 50%;
+}
+
+.slide-right img{
+    width: 100%;
+    height: auto;
+}
+
+.slide-title{
+    font-weight: bold;
+    font-size: 32px;
+}
+
+{% endstyle %}
 <section class="page-width">
-    {{ product.metafields }}
 <div class="swiper">
     <!-- Additional required wrapper -->
     <div class="swiper-wrapper">
       <!-- Slides -->
-    {% for metafield in product.metafields %}
-      <div class="swiper-slide">{{ metafield.value }}</div>
+    {% for i in (1..2) %}
+    {% assign dummy = 'slider' | append:i %}
+    {% assign slide = product.metafields[dummy] %}
+        <div class="swiper-slide">
+            <div class="slide">
+                <div class="slide-left">
+                    <h2 class="slide-title">{{ slide.title.value }}</h2>
+                    <p class="slide-description">{{ slide.description.value }}</p>
+                </div>
+                <div class="slide-right">
+                    <img src="{{ slide.image | image_url: width: 800 }}" loading="lazy">
+                </div>
+            </div>
+        </div>
     {% endfor %}
-      ...
     </div>
     <!-- If we need pagination -->
     <div class="swiper-pagination"></div>
