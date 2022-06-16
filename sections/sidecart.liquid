@@ -1,0 +1,128 @@
+{% style %}
+.sidecart-overlay{
+    display: block;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #000;
+    z-index: 999;
+}
+.sidecart-overlay.active{
+    opacity: .7;
+}
+
+.sidecart-content{
+    background-color: #FFF;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    z-index: 9999;
+    width: 40%;
+    right: 0;
+    transition: .2s;
+    transform: translateX(100%);
+    padding: 25px;
+}
+.sidecart-content.active{
+    transform: translateX(0%);
+}
+
+{% endstyle %}
+
+<div class="sidecart-overlay active">d</div>
+<div class="sidecart-content active">
+    <div id="sideCartProducts">
+    {% for item in cart.items %}
+        <div>
+            <strong>{{ item.title }}</strong>
+            <select class="change-quantity" data-id="{{ item.id }}">
+                {% for i in (1..10) %}
+                    {% if item.quantity == i %}
+                        <option value="{{i}}" selected>{{i}}</option>
+                    {% else %}
+                        <option value="{{i}}">{{i}}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <span>Total: {{ item.price | money }}</span>
+            
+        </div>
+    {% endfor %}
+    </div>
+</div>
+
+{% javascript %}
+
+let sideCartProducts = document.querySelector("#sideCartProducts");
+let quantitySelects = sideCartProducts.querySelectorAll(".change-quantity");
+
+quantitySelects.forEach( quantitySelect => {
+    quantitySelect.addEventListener("change", updateCart );
+});
+
+function updateCart( evt ){
+    let id = this.getAttribute("data-id");
+    let quantity = evt.target.value;    
+
+    let formData = {
+        'id': id,
+        'quantity': quantity
+    }
+
+    fetch(window.Shopify.routes.root + 'cart/change.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    })
+    .then(response => {
+      alert("Item has been update to cart");
+      return response.json();
+    })
+    .then( data => console.log(data) )
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+
+    const request = new XMLHttpRequest();
+    request.addEventListener('load', handleResponse);
+    request.open('GET', '/?sections=cart', true);
+    request.send();
+}
+
+function handleResponse() {
+    console.log( JSON.parse(this.responseText) );
+}
+{% endjavascript %}
+
+{% schema %}
+{
+    "name": "Sidecart",
+    "tag": "section",
+    "class": "sidecart",
+    "settings": [
+        {
+            "type": "range",
+            "id": "padding_top",
+            "min": 0,
+            "max": 100,
+            "step": 4,
+            "unit": "px",
+            "label": "t:sections.all.padding.padding_top",
+            "default": 36
+        },
+        {
+            "type": "range",
+            "id": "padding_bottom",
+            "min": 0,
+            "max": 100,
+            "step": 4,
+            "unit": "px",
+            "label": "t:sections.all.padding.padding_bottom",
+            "default": 36
+        }
+    ]
+}
+{% endschema %}

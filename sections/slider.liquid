@@ -18,15 +18,36 @@
     font-size: 32px;
 }
 
+.swiper-button-next, .swiper-button-prev{
+  background-color: rgba( 240,240,240,.7);
+  width: 60px;
+  height: 60px;
+  border-radius: 100%;
+}
+
+.swiper-button-next:after, .swiper-button-prev:after{
+  font-size: 24px;
+}
+
+.swiper-button-next {
+    right: 5px;
+    left: auto;
+}
+
+.swiper-button-prev {
+    right: auto;
+    left: 51%;
+}
+
 {% endstyle %}
 <section class="page-width">
 <div class="swiper">
     <!-- Additional required wrapper -->
     <div class="swiper-wrapper">
       <!-- Slides -->
-    {% for i in (1..2) %}
-    {% assign dummy = 'slider' | append:i %}
-    {% assign slide = product.metafields[dummy] %}
+    {% for i in (1..product.metafields.slider.total-slides.value) %}
+    {% assign slideNumber = 'slider' | append:i %}
+    {% assign slide = product.metafields[slideNumber] %}
         <div class="swiper-slide">
             <div class="slide">
                 <div class="slide-left">
@@ -44,11 +65,9 @@
     <div class="swiper-pagination"></div>
   
     <!-- If we need navigation buttons -->
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev">&nbsp;</div>
+    <div class="swiper-button-next">&nbsp;</div>
   
-    <!-- If we need scrollbar -->
-    <div class="swiper-scrollbar"></div>
   </div>
 <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
 
@@ -60,20 +79,10 @@ const swiper = new Swiper('.swiper', {
   loop: true,
   autoplay: true,
 
-  // If we need pagination
-  pagination: {
-    el: '.swiper-pagination',
-  },
-
   // Navigation arrows
   navigation: {
     nextEl: '.swiper-button-next',
     prevEl: '.swiper-button-prev',
-  },
-
-  // And if we need scrollbar
-  scrollbar: {
-    el: '.swiper-scrollbar',
   },
 });
 

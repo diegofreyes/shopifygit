@@ -218,6 +218,13 @@
         "padding_top": 28,
         "padding_bottom": 28
       }
+    },
+    "sidecart": {
+      "type": "sidecart",
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
     }
   },
   "order": [
@@ -225,6 +232,7 @@
     "image-with-text",
     "multicolumn",
     "product-recommendations",
-    "slider"
+    "slider",
+    "sidecart"
   ]
 }
