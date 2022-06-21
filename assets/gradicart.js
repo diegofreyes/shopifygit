@@ -40,7 +40,6 @@ allProducts.forEach( product => {
       body: JSON.stringify(formData)
     })
     .then(response => {
-      alert("Item has been added to cart");
       updateProductsCart();
       openSideCart();
       return response.json();
@@ -96,7 +95,6 @@ function updateCart( evt ){
       body: JSON.stringify(formData)
     })
     .then(response => {
-      alert("Item has been update to cart");
       updateProductsCart();
       return response.json();
     })
@@ -110,14 +108,14 @@ function updateProductsCart() {
     const request = new XMLHttpRequest();
     let cartProducts = {};
     request.addEventListener('load', function(){
-        cartProducts = JSON.parse((this.responseText));
-       console.log( cartProducts );
+       cartProducts = JSON.parse((this.responseText));
+       
        sideCartProducts.innerHTML = cartProducts['cart-items'];
        quantitySelects = sideCartProducts.querySelectorAll(".change-quantity");
        quantitySelects.forEach( quantitySelect => {
         quantitySelect.addEventListener("change", updateCart );
        });
-       console.log( quantitySelects);
+       
     });
     request.open('GET', '/?sections=cart-items', true);
     request.send();
@@ -133,7 +131,6 @@ function emptyCart(){
       }
     })
     .then(response => {
-      alert("The cart is empty");
       updateProductsCart();
     })
     .then( data => console.log(data) )

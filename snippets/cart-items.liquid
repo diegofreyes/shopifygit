@@ -13,12 +13,14 @@
         </select>
         <span>Total: {{ item.final_line_price | money }}</span>
     </div>
+    
 {% endfor %}
+------
     <div>
         <strong>{{ 'sections.cart.headings.total' | t }}: {{ cart.original_total_price | money }}</strong>
     </div>
 {% else %}
-    <hr>
+    
     <div>
         <h3>{{ 'sections.cart.empty' | t }}</h3>
     </div>
