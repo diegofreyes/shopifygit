@@ -71,21 +71,6 @@
     {% for product in collections[section.settings.collection].products %}
 
     <li class="grid__item">
-    {% render 'card-product',
-        card_product: product,
-        lazy_load: true,
-        section_id: section.id,
-        has_only_default_variant: false,
-        show_quick_add: true
-    %}
-    </li>
-    {% endfor %}
-</ul>
-
-<ul class="grid product-grid">
-    {% for product in collections[section.settings.collection].products %}
-
-    <li class="grid__item">
       <a href="{{ product.url }}">
         <img 
           loading="lazy"
@@ -112,66 +97,7 @@
 </div>
 </div>
 
-{% javascript %}
-const products = document.querySelectorAll("li.grid__item");
-
-let formData = {
- 'items': []
-};
-
-products.forEach( product => {
-  let productOptions = product.querySelectorAll("input[type='radio']");
-  let productButton = product.querySelector("button");
-  let productPrice = product.querySelector("span.product_price");
-  productOptions.forEach( function( option ){
-    option.addEventListener('click', function(){
-      let id = this.getAttribute('data-id');
-      let price = this.getAttribute('data-price');
-      let image = this.getAttribute('data-img');
-      let productImage = product.querySelector("img");
-      productImage.src = image;
-      productButton.setAttribute("data-id", id);
-      productButton.removeAttribute("disabled");
-      productPrice.innerHTML = price;
-    });
-  });
-
-  let responseJson;
-
-  productButton.addEventListener('click', function(){
-    let formData = {
-    'items': [{
-      'id': this.getAttribute('data-id'),
-      'quantity': 1
-      }],
-      sections: "cart-icon-bubble"
-    };
-
-    fetch(window.Shopify.routes.root + 'cart/add.js', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    })
-    .then(response => {
-      alert("Item has been added to cart");
-      return response.json();
-    })
-    .then(data => renderCartItems(data))
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-  })
-});
-
-function renderCartItems( data ){
-  
-}
-
-
-
-{% endjavascript %}
+<script src="{{ 'gradicart.js' | asset_url }}" defer="defer"></script>
 
 {% schema %}
 {

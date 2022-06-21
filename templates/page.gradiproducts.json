@@ -8,9 +8,17 @@
         "collection": "all",
         "enable_quick_add": true
       }
+    },
+    "sidecart": {
+      "type": "sidecart",
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "sidecart"
   ]
 }

@@ -1,0 +1,25 @@
+{% if cart.item_count > 0 %}
+{% for item in cart.items %}
+    <div>
+        <strong>{{ item.title }}</strong>
+        <select class="change-quantity" data-id="{{ item.id }}">
+            {% for i in (0..10) %}
+                {% if item.quantity == i %}
+                    <option value="{{i}}" selected>{{i}}</option>
+                {% else %}
+                    <option value="{{i}}">{{i}}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        <span>Total: {{ item.final_line_price | money }}</span>
+    </div>
+{% endfor %}
+    <div>
+        <strong>{{ 'sections.cart.headings.total' | t }}: {{ cart.original_total_price | money }}</strong>
+    </div>
+{% else %}
+    <hr>
+    <div>
+        <h3>{{ 'sections.cart.empty' | t }}</h3>
+    </div>
+{% endif %}

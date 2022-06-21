@@ -1,14 +1,16 @@
 {% style %}
 .sidecart-overlay{
-    display: block;
     position: fixed;
     top: 0;
     bottom: 0;
     width: 100%;
     background-color: #000;
     z-index: 999;
+    display: block;
+    visibility: hidden;
 }
 .sidecart-overlay.active{
+    visibility: visible;
     opacity: .7;
 }
 
@@ -30,72 +32,18 @@
 
 {% endstyle %}
 
-<div class="sidecart-overlay active">d</div>
-<div class="sidecart-content active">
+<div class="sidecart-overlay">d</div>
+<div class="sidecart-content">
+    <button id="closeSideCart">Cerrar carrito</button>
     <div id="sideCartProducts">
-    {% for item in cart.items %}
-        <div>
-            <strong>{{ item.title }}</strong>
-            <select class="change-quantity" data-id="{{ item.id }}">
-                {% for i in (1..10) %}
-                    {% if item.quantity == i %}
-                        <option value="{{i}}" selected>{{i}}</option>
-                    {% else %}
-                        <option value="{{i}}">{{i}}</option>
-                    {% endif %}
-                {% endfor %}
-            </select>
-            <span>Total: {{ item.price | money }}</span>
-            
-        </div>
-    {% endfor %}
+    {% render 'cart-items' %}
+    </div>
+    <div>
+        <button id="emptyCart">Limpiar carrito</button>
     </div>
 </div>
 
-{% javascript %}
-
-let sideCartProducts = document.querySelector("#sideCartProducts");
-let quantitySelects = sideCartProducts.querySelectorAll(".change-quantity");
-
-quantitySelects.forEach( quantitySelect => {
-    quantitySelect.addEventListener("change", updateCart );
-});
-
-function updateCart( evt ){
-    let id = this.getAttribute("data-id");
-    let quantity = evt.target.value;    
-
-    let formData = {
-        'id': id,
-        'quantity': quantity
-    }
-
-    fetch(window.Shopify.routes.root + 'cart/change.js', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    })
-    .then(response => {
-      alert("Item has been update to cart");
-      return response.json();
-    })
-    .then( data => console.log(data) )
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-
-    const request = new XMLHttpRequest();
-    request.addEventListener('load', handleResponse);
-    request.open('GET', '/?sections=cart', true);
-    request.send();
-}
-
-function handleResponse() {
-    console.log( JSON.parse(this.responseText) );
-}
-{% endjavascript %}
+<script src="{{ 'gradicart.js' | asset_url }}" defer="defer"></script>
 
 {% schema %}
 {
